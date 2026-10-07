@@ -34,11 +34,14 @@
       margin-bottom: 20px;
     }
 
-    h1 {
+    h1, h2, h3 {
       color: #0b69a3;
+      margin-top: 0;
+    }
+
+    h1 {
       border-bottom: 2px solid #e1e8ed;
       padding-bottom: 10px;
-      margin-top: 0;
     }
 
     p {
@@ -46,27 +49,158 @@
       line-height: 1.6;
     }
 
-    /* Styling for the "I'm Excited" button */
-    .excited-btn {
+    .excited-btn, .btn-primary {
       background-color: #0b69a3;
       color: #ffffff;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      margin: 15px 0;
+      margin: 10px 0;
       transition: background-color 0.2s ease, transform 0.1s ease;
     }
 
-    .excited-btn:hover {
+    .excited-btn:hover, .btn-primary:hover {
       background-color: #084c77;
     }
 
-    .excited-btn:active {
+    .excited-btn:active, .btn-primary:active {
       transform: scale(0.96);
     }
+
+    /* Arcade Container & Tab Selector */
+    .arcade-section {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .game-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      background-color: #e2e8f0;
+      color: #334155;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .tab-btn.active {
+      background-color: #0b69a3;
+      color: #ffffff;
+    }
+
+    .game-panel {
+      display: none;
+      min-height: 230px;
+    }
+
+    .game-panel.active {
+      display: block;
+    }
+
+    /* Game 1: Speed Clicker Box */
+    .clicker-box {
+      width: 100%;
+      height: 180px;
+      background-color: #e2e8f0;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .target {
+      width: 44px;
+      height: 44px;
+      font-size: 26px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    /* Game 2: Memory Match Grid */
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 320px;
+      margin: 15px auto;
+    }
+
+    .memory-card {
+      height: 70px;
+      background-color: #0b69a3;
+      color: transparent;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+
+    .memory-card.flipped {
+      background-color: #ffffff;
+      border: 2px solid #0b69a3;
+      color: #000;
+    }
+
+    /* Game 3: Canvas Frame */
+    canvas {
+      background-color: #0f172a;
+      border-radius: 6px;
+      display: block;
+      margin: 10px auto;
+      max-width: 100%;
+    }
+
+    /* Game 4: Simon Says Grid */
+    .simon-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      max-width: 200px;
+      margin: 15px auto;
+    }
+
+    .simon-pad {
+      height: 85px;
+      border-radius: 12px;
+      cursor: pointer;
+      opacity: 0.75;
+      border: none;
+      transition: opacity 0.1s, transform 0.1s;
+    }
+
+    .simon-pad.active-pad {
+      opacity: 1;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    }
+
+    #pad-red { background-color: #ef4444; }
+    #pad-green { background-color: #22c55e; }
+    #pad-blue { background-color: #3b82f6; }
+    #pad-yellow { background-color: #eab308; }
 
     a {
       color: #0b69a3;
@@ -74,8 +208,7 @@
       font-weight: bold;
     }
 
-    a:hover,
-    a:focus {
+    a:hover, a:focus {
       text-decoration: underline;
       outline: none;
     }
@@ -90,57 +223,75 @@
     
     <p>This class introduces the fundamentals of web design and coding. We are learning how to build webpages using HTML and host them live using GitHub Pages!</p>
 
-    <!-- The excited button -->
     <button id="excitedBtn" class="excited-btn">🎉 I'm Excited!</button>
 
-    <p>Check out my favorite resource: <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer">Visit Wikipedia</a></p>
+    <!-- Mini-Arcade Section -->
+    <div class="arcade-section">
+      <h2>🎮 Web Arcade</h2>
+      <p style="font-size: 15px; margin-bottom: 15px;">Choose a mini-game to play:</p>
+
+      <!-- Game Switcher Tabs -->
+      <div class="game-tabs">
+        <button class="tab-btn active" onclick="switchGame(event, 'clicker')">⚡ Speed Clicker</button>
+        <button class="tab-btn" onclick="switchGame(event, 'memory')">🧠 Memory Match</button>
+        <button class="tab-btn" onclick="switchGame(event, 'star')">⭐ Catch the Star</button>
+        <button class="tab-btn" onclick="switchGame(event, 'simon')">🎵 Simon Says</button>
+      </div>
+
+      <!-- GAME 1: Speed Clicker -->
+      <div id="game-clicker" class="game-panel active">
+        <h3>Speed Clicker (10 Seconds)</h3>
+        <p id="clickerStatus">Click Start to test your reaction speed!</p>
+        <button class="btn-primary" onclick="startClicker()">Start Game</button>
+        <div class="clicker-box" id="clickerBox">
+          <button id="targetBtn" class="target" style="display:none;" onclick="hitTarget()">🎯</button>
+        </div>
+      </div>
+
+      <!-- GAME 2: Memory Match -->
+      <div id="game-memory" class="game-panel">
+        <h3>Emoji Memory Match</h3>
+        <p id="memoryStatus">Find all 4 matching pairs!</p>
+        <button class="btn-primary" onclick="initMemoryGame()">New Game</button>
+        <div class="memory-grid" id="memoryGrid"></div>
+      </div>
+
+      <!-- GAME 3: Catch the Star -->
+      <div id="game-star" class="game-panel">
+        <h3>Catch the Falling Star</h3>
+        <p id="starStatus">Move your mouse or Left/Right arrows to control the paddle!</p>
+        <button class="btn-primary" onclick="startStarGame()">Start Game</button>
+        <canvas id="starCanvas" width="300" height="200"></canvas>
+      </div>
+
+      <!-- GAME 4: Simon Says -->
+      <div id="game-simon" class="game-panel">
+        <h3>Simon Says Sequence</h3>
+        <p id="simonStatus">Press Start to begin!</p>
+        <button class="btn-primary" onclick="startSimon()">Start Game</button>
+        <div class="simon-grid">
+          <button id="pad-red" class="simon-pad" onclick="handleSimonInput(0)"></button>
+          <button id="pad-green" class="simon-pad" onclick="handleSimonInput(1)"></button>
+          <button id="pad-blue" class="simon-pad" onclick="handleSimonInput(2)"></button>
+          <button id="pad-yellow" class="simon-pad" onclick="handleSimonInput(3)"></button>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top: 25px;">Check out my favorite resource: <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer">Visit Wikipedia</a></p>
   </main>
 
   <script>
-    // 1. Synthesizes a sound chime using the Web Audio API
-    function playChime() {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      
-      // First tone (C5)
-      const osc1 = audioCtx.createOscillator();
-      const gain1 = audioCtx.createGain();
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-      gain1.gain.setValueAtTime(0.2, audioCtx.currentTime);
-      gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-      osc1.connect(gain1);
-      gain1.connect(audioCtx.destination);
-      osc1.start();
-      osc1.stop(audioCtx.currentTime + 0.3);
+    /* Audio Synthesizer Engine */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-      // Second higher tone (E5) right after
-      const osc2 = audioCtx.createOscillator();
-      const gain2 = audioCtx.createGain();
-      osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
-      gain2.gain.setValueAtTime(0.2, audioCtx.currentTime + 0.1);
-      gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-      osc2.connect(gain2);
-      gain2.connect(audioCtx.destination);
-      osc2.start(audioCtx.currentTime + 0.1);
-      osc2.stop(audioCtx.currentTime + 0.5);
-    }
-
-    // 2. Listen for clicks on the button
-    const btn = document.getElementById('excitedBtn');
-    
-    btn.addEventListener('click', () => {
-      // Play sound
-      playChime();
-
-      // Launch confetti burst
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-    });
-  </script>
-
-</body>
-</html>
+    function playTone(freq, type = 'sine', duration = 0.2) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
