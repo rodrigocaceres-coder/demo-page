@@ -2,31 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web Development 101</title>
   <style>
+    /* Page background and general resets */
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f4f8;
       color: #102a43;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Centered content card */
+    .card {
       max-width: 650px;
-      margin: 50px auto;
+      margin: 40px auto;
       padding: 30px;
-      background: #ffffff;
+      background-color: #ffffff;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
+    /* Image styling */
     .responsive-img {
       width: 100%;
       height: auto;
+      display: block;
       border-radius: 6px;
       margin-bottom: 20px;
     }
 
+    /* Typography styling */
     h1 {
       color: #0b69a3;
       border-bottom: 2px solid #e1e8ed;
       padding-bottom: 10px;
+      margin-top: 0;
     }
 
     p {
@@ -34,26 +46,31 @@
       line-height: 1.6;
     }
 
+    /* Link and accessibility hover/focus states */
     a {
       color: #0b69a3;
       text-decoration: none;
       font-weight: bold;
     }
 
-    a:hover {
+    a:hover,
+    a:focus {
       text-decoration: underline;
+      outline: none;
     }
   </style>
 </head>
 <body>
 
-  <img src="header-image.jpg" alt="A clean workspace with a laptop showing code" class="responsive-img">
+  <main class="card">
+    <img src="header-image.jpg" alt="A clean workspace with a laptop showing code" class="responsive-img">
 
-  <h1>Welcome to Web Development 101</h1>
-  
-  <p>This class introduces the fundamentals of web design and coding. We are learning how to build webpages using HTML and host them live using GitHub Pages!</p>
+    <h1>Welcome to Web Development 101</h1>
+    
+    <p>This class introduces the fundamentals of web design and coding. We are learning how to build webpages using HTML and host them live using GitHub Pages!</p>
 
-  <p>Check out my favorite resource: <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer">Visit Wikipedia</a></p>
+    <p>Check out my favorite resource: <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer">Visit Wikipedia</a></p>
+  </main>
 
 </body>
 </html>
