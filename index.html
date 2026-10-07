@@ -16,12 +16,11 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
-    /* CSS to resize and fit your image nicely */
     .responsive-img {
-      width: 100%;         /* Spans the full width of the card container */
-      height: auto;        /* Keeps original proportions so it doesn't look stretched */
-      border-radius: 6px;  /* Slightly rounds the corners */
-      margin-bottom: 20px; /* Adds space underneath the image */
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin-bottom: 20px;
     }
 
     h1 {
@@ -34,15 +33,27 @@
       font-size: 18px;
       line-height: 1.6;
     }
+
+    a {
+      color: #0b69a3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
-  <!-- The image tag -->
   <img src="header-image.jpg" alt="A clean workspace with a laptop showing code" class="responsive-img">
 
   <h1>Welcome to Web Development 101</h1>
+  
   <p>This class introduces the fundamentals of web design and coding. We are learning how to build webpages using HTML and host them live using GitHub Pages!</p>
+
+  <p>Check out my favorite resource: <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer">Visit Wikipedia</a></p>
 
 </body>
 </html>
