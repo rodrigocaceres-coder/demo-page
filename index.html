@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web Development 101</title>
+  
+  <!-- Loads the Confetti Animation Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
-    /* Page background and general resets */
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f4f8;
@@ -14,7 +17,6 @@
       padding: 20px;
     }
 
-    /* Centered content card */
     .card {
       max-width: 650px;
       margin: 40px auto;
@@ -24,7 +26,6 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
-    /* Image styling */
     .responsive-img {
       width: 100%;
       height: auto;
@@ -33,7 +34,6 @@
       margin-bottom: 20px;
     }
 
-    /* Typography styling */
     h1 {
       color: #0b69a3;
       border-bottom: 2px solid #e1e8ed;
@@ -46,7 +46,28 @@
       line-height: 1.6;
     }
 
-    /* Link and accessibility hover/focus states */
+    /* Styling for the "I'm Excited" button */
+    .excited-btn {
+      background-color: #0b69a3;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 15px 0;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .excited-btn:hover {
+      background-color: #084c77;
+    }
+
+    .excited-btn:active {
+      transform: scale(0.96);
+    }
+
     a {
       color: #0b69a3;
       text-decoration: none;
@@ -69,8 +90,57 @@
     
     <p>This class introduces the fundamentals of web design and coding. We are learning how to build webpages using HTML and host them live using GitHub Pages!</p>
 
+    <!-- The excited button -->
+    <button id="excitedBtn" class="excited-btn">🎉 I'm Excited!</button>
+
     <p>Check out my favorite resource: <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer">Visit Wikipedia</a></p>
   </main>
+
+  <script>
+    // 1. Synthesizes a sound chime using the Web Audio API
+    function playChime() {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // First tone (C5)
+      const osc1 = audioCtx.createOscillator();
+      const gain1 = audioCtx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+      gain1.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+      osc1.connect(gain1);
+      gain1.connect(audioCtx.destination);
+      osc1.start();
+      osc1.stop(audioCtx.currentTime + 0.3);
+
+      // Second higher tone (E5) right after
+      const osc2 = audioCtx.createOscillator();
+      const gain2 = audioCtx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+      gain2.gain.setValueAtTime(0.2, audioCtx.currentTime + 0.1);
+      gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+      osc2.connect(gain2);
+      gain2.connect(audioCtx.destination);
+      osc2.start(audioCtx.currentTime + 0.1);
+      osc2.stop(audioCtx.currentTime + 0.5);
+    }
+
+    // 2. Listen for clicks on the button
+    const btn = document.getElementById('excitedBtn');
+    
+    btn.addEventListener('click', () => {
+      // Play sound
+      playChime();
+
+      // Launch confetti burst
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    });
+  </script>
 
 </body>
 </html>
