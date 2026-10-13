@@ -213,3 +213,58 @@ a:hover, a:focus {
   border-bottom: 1px solid #d4af37;
   outline: none;
 }
+
+/* Jouster ride (Huzzah button) */
+.jouster {
+  position: fixed;
+  bottom: 6vh;
+  left: 0;
+  width: 220px;
+  z-index: 1000;
+  pointer-events: none;
+  animation: jouster-ride 5s linear forwards;
+}
+
+.jouster svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.jouster-bob {
+  animation: jouster-bob 0.5s ease-in-out infinite alternate;
+}
+
+.jouster .leg {
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+
+.jouster .leg-a {
+  animation: leg-swing-a 0.5s ease-in-out infinite alternate;
+}
+
+.jouster .leg-b {
+  animation: leg-swing-b 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes jouster-ride {
+  from { transform: translateX(-240px); }
+  to { transform: translateX(100vw); }
+}
+
+@keyframes jouster-bob {
+  from { transform: translateY(0); }
+  to { transform: translateY(-6px); }
+}
+
+@keyframes leg-swing-a {
+  from { transform: rotate(-22deg); }
+  to { transform: rotate(22deg); }
+}
+
+@keyframes leg-swing-b {
+  from { transform: rotate(22deg); }
+  to { transform: rotate(-22deg); }
+}
