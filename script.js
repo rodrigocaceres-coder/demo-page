@@ -19,9 +19,49 @@ function playChime() {
   setTimeout(() => playTone(659.25, 'sine', 0.3), 100);
 }
 
+const JOUSTER_SVG = `
+<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+  <g class="jouster-bob">
+    <path class="leg leg-a" d="M72 82 L70 108" stroke="#3b2414" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path class="leg leg-b" d="M84 82 L84 108" stroke="#3b2414" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path class="leg leg-b" d="M108 82 L108 108" stroke="#3b2414" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path class="leg leg-a" d="M120 82 L122 108" stroke="#3b2414" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M58 64 Q36 68 42 96" stroke="#3b2414" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <ellipse cx="95" cy="70" rx="40" ry="16" fill="#5a3a22"/>
+    <polygon points="124,62 140,34 154,40 138,74" fill="#5a3a22"/>
+    <path d="M140 34 L172 52 L166 60 L148 50 Z" fill="#5a3a22"/>
+    <circle cx="150" cy="42" r="2" fill="#fcf5e5"/>
+    <path d="M128 52 Q124 40 136 32" stroke="#3b2414" stroke-width="4" fill="none"/>
+    <path d="M60 62 H128 V84 Q94 92 60 84 Z" fill="#800020" stroke="#d4af37" stroke-width="2"/>
+    <rect x="90" y="36" width="16" height="26" rx="3" fill="#8a8f98" stroke="#3e2723" stroke-width="1.5"/>
+    <path d="M92 60 L84 76 L96 76 Z" fill="#8a8f98" stroke="#3e2723" stroke-width="1.5"/>
+    <circle cx="98" cy="28" r="9" fill="#a0a5ad" stroke="#3e2723" stroke-width="1.5"/>
+    <rect x="98" y="26" width="10" height="3" fill="#3e2723"/>
+    <path d="M92 20 Q82 10 78 22" stroke="#800020" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <line x1="96" y1="50" x2="192" y2="30" stroke="#8b5a2b" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="150,38 150,46 128,44" fill="#d4af37"/>
+    <path d="M104 40 L124 40 L124 54 Q114 66 104 54 Z" fill="#d4af37" stroke="#800020" stroke-width="2"/>
+  </g>
+</svg>`;
+
+function rideJouster() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (document.querySelector('.jouster')) return;
+
+  const rider = document.createElement('div');
+  rider.className = 'jouster';
+  rider.setAttribute('aria-hidden', 'true');
+  rider.innerHTML = JOUSTER_SVG;
+  rider.addEventListener('animationend', (e) => {
+    if (e.target === rider) rider.remove();
+  });
+  document.body.appendChild(rider);
+}
+
 document.getElementById('excitedBtn').addEventListener('click', () => {
   playChime();
   confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+  rideJouster();
 });
 
 function switchGame(evt, gameName) {
