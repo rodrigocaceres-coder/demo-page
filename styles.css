@@ -216,13 +216,15 @@ a:hover, a:focus {
 
 /* Jouster ride (Huzzah button) */
 .jouster {
+  --ride-time: 6s;
   position: fixed;
-  bottom: 6vh;
+  top: 50%;
   left: 0;
-  width: 220px;
+  width: clamp(340px, 46vw, 680px);
   z-index: 1000;
   pointer-events: none;
-  animation: jouster-ride 5s linear forwards;
+  filter: drop-shadow(0 8px 6px rgba(62, 39, 35, 0.35));
+  animation: jouster-ride var(--ride-time) linear forwards;
 }
 
 .jouster svg {
@@ -232,39 +234,98 @@ a:hover, a:focus {
   overflow: visible;
 }
 
-.jouster-bob {
-  animation: jouster-bob 0.5s ease-in-out infinite alternate;
-}
+.jx-bob { animation: jx-bob 0.3s ease-in-out infinite; }
+.jx-rider { animation: jx-rider 0.3s ease-in-out infinite; }
+.jx-shadow { animation: jx-shadow 0.3s ease-in-out infinite; transform-origin: 205px 254px; }
 
-.jouster .leg {
-  transform-box: fill-box;
-  transform-origin: top center;
-}
+.jx-leg { animation: jx-swing 0.6s ease-in-out infinite; }
+.jx-pair-b { animation-delay: -0.3s; }
 
-.jouster .leg-a {
-  animation: leg-swing-a 0.5s ease-in-out infinite alternate;
-}
+.jx-lower-fore { animation: jx-knee-fore 0.6s ease-in-out infinite; }
+.jx-lower-hind { animation: jx-knee-hind 0.6s ease-in-out infinite; }
+.jx-pair-b .jx-lower { animation-delay: -0.3s; }
 
-.jouster .leg-b {
-  animation: leg-swing-b 0.5s ease-in-out infinite alternate;
-}
+.jx-tail { animation: jx-tail 0.6s ease-in-out infinite alternate; }
+.jx-mane { animation: jx-mane 0.3s ease-in-out infinite alternate; }
+.jx-cloth { animation: jx-cloth 0.3s ease-in-out infinite alternate; }
+.jx-plume { animation: jx-plume 0.3s ease-in-out infinite alternate; }
+.jx-plume-horse { animation: jx-plume-horse 0.3s ease-in-out infinite alternate; }
+.jx-lance { animation: jx-lance 0.3s ease-in-out infinite alternate; }
+.jx-flag { animation: jx-flag 0.2s ease-in-out infinite alternate; }
 
 @keyframes jouster-ride {
-  from { transform: translateX(-240px); }
-  to { transform: translateX(100vw); }
+  from { transform: translate(-100%, -50%); }
+  to { transform: translate(100vw, -50%); }
 }
 
-@keyframes jouster-bob {
-  from { transform: translateY(0); }
-  to { transform: translateY(-6px); }
+@keyframes jx-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
-@keyframes leg-swing-a {
-  from { transform: rotate(-22deg); }
-  to { transform: rotate(22deg); }
+@keyframes jx-rider {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
 }
 
-@keyframes leg-swing-b {
-  from { transform: rotate(22deg); }
-  to { transform: rotate(-22deg); }
+@keyframes jx-shadow {
+  0%, 100% { transform: scaleX(1); opacity: 0.28; }
+  50% { transform: scaleX(0.94); opacity: 0.2; }
+}
+
+@keyframes jx-swing {
+  0% { transform: rotate(-24deg); }
+  50% { transform: rotate(24deg); }
+  100% { transform: rotate(-24deg); }
+}
+
+@keyframes jx-knee-fore {
+  0%, 50% { transform: rotate(0deg); }
+  75% { transform: rotate(52deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes jx-knee-hind {
+  0%, 50% { transform: rotate(0deg); }
+  75% { transform: rotate(40deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes jx-tail {
+  from { transform: rotate(-5deg); }
+  to { transform: rotate(7deg); }
+}
+
+@keyframes jx-mane {
+  from { transform: skewX(-3deg) rotate(-1deg); }
+  to { transform: skewX(3deg) rotate(1deg); }
+}
+
+@keyframes jx-cloth {
+  from { transform: skewX(-1.5deg); }
+  to { transform: skewX(1.5deg); }
+}
+
+@keyframes jx-plume {
+  from { transform: rotate(-5deg); }
+  to { transform: rotate(6deg); }
+}
+
+@keyframes jx-plume-horse {
+  from { transform: rotate(-6deg); }
+  to { transform: rotate(8deg); }
+}
+
+@keyframes jx-lance {
+  from { transform: rotate(-0.8deg); }
+  to { transform: rotate(0.8deg); }
+}
+
+@keyframes jx-flag {
+  from { transform: skewY(-6deg) scaleX(1); }
+  to { transform: skewY(6deg) scaleX(0.92); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jouster { display: none; }
 }
