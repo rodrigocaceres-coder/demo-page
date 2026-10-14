@@ -530,3 +530,139 @@ function handleSimonInput(padIdx) {
 }
 
 initMemoryGame();
+
+/* ---------- English / Spanish toggle ----------
+   Static text: elements with data-i18n (text) or data-i18n-alt (image alt).
+   Game messages: the code above writes English into the four status lines.
+   A watcher below translates each message to Spanish and keeps the English
+   original, so toggling back restores the exact message.
+   Keep this block at the bottom of the file. */
+(function () {
+  const STORAGE_KEY = 'demo-page-lang';
+
+  const STRINGS = {
+    pageTitle: { en: 'Web Development 101', es: 'Desarrollo Web 101' },
+    heroAlt: {
+      en: 'A clean workspace with a laptop showing code',
+      es: 'Un espacio de trabajo ordenado con una laptop que muestra código'
+    },
+    welcome: { en: 'Welcome to Web Development 101', es: 'Bienvenido a Desarrollo Web 101' },
+    intro: {
+      en: 'This class introduces the fundamentals of web design and coding. We are learning how to build webpages using HTML and host them live using GitHub Pages!',
+      es: 'Esta clase presenta los fundamentos del diseño y la programación web. Aprendemos a construir páginas con HTML y a publicarlas con GitHub Pages.'
+    },
+    huzzah: { en: "🎉 Huzzah! (I'm Excited)", es: '🎉 ¡Hurra! (Estoy emocionado)' },
+    arcadeTitle: { en: '🏰 The Grand Arcade', es: '🏰 La Gran Galería de Juegos' },
+    arcadeHint: { en: 'Choose thy diversion:', es: 'Elige tu pasatiempo:' },
+    tabClicker: { en: '⚡ Quick Strike', es: '⚡ Golpe Rápido' },
+    tabMemory: { en: "🧠 Scholar's Memory", es: '🧠 Memoria del Erudito' },
+    tabStar: { en: '⭐ Catch the Star', es: '⭐ Atrapa la Estrella' },
+    tabSimon: { en: "🎵 Bard's Sequence", es: '🎵 Secuencia del Bardo' },
+    clickerTitle: { en: 'Quick Strike (10 Seconds)', es: 'Golpe Rápido (10 segundos)' },
+    memoryTitle: { en: "Scholar's Memory Match", es: 'Pares de la Memoria del Erudito' },
+    starTitle: { en: 'Catch the Falling Star', es: 'Atrapa la Estrella Fugaz' },
+    simonTitle: { en: "Bard's Sequence", es: 'Secuencia del Bardo' },
+    commence: { en: 'Commence', es: 'Comenzar' },
+    newGame: { en: 'New Game', es: 'Nueva partida' },
+    peruse: { en: 'Peruse my favored manuscript:', es: 'Hojea mi manuscrito favorito:' },
+    wiki: { en: 'Visit Wikipedia', es: 'Visitar Wikipedia' }
+  };
+
+  const BUTTON_LABEL = {
+    en: { text: 'Español', label: 'Cambiar a español' },
+    es: { text: 'English', label: 'Switch to English' }
+  };
+
+  /* English game message (regex) to Spanish (function). */
+  const MESSAGES = [
+    [/^Click Start to test thy reaction speed!$/, () => '¡Pulsa Comenzar para probar tu rapidez!'],
+    [/^Time: (\d+)s \| Score: (\d+)$/, (m) => `Tiempo: ${m[1]}s | Puntos: ${m[2]}`],
+    [/^Game Over! Final Score: (\d+)$/, (m) => `¡Fin del juego! Puntuación final: ${m[1]}`],
+    [/^Find all 4 matching pairs!$/, () => '¡Encuentra los 4 pares!'],
+    [/^🎉 Thou hast matched all pairs!$/, () => '🎉 ¡Has hallado todos los pares!'],
+    [/^Move thy mouse or Left\/Right arrows to control the basket!$/, () => '¡Mueve el ratón o las flechas izquierda y derecha para guiar la cesta!'],
+    [/^Score: (\d+)$/, (m) => `Puntos: ${m[1]}`],
+    [/^Press Commence to begin!$/, () => '¡Pulsa Comenzar para empezar!'],
+    [/^Watch the pattern!$/, () => '¡Observa la secuencia!'],
+    [/^Thy turn! \(Length: (\d+)\)$/, (m) => `¡Tu turno! (Longitud: ${m[1]})`],
+    [/^Correct! Preparing next round\.\.\.$/, () => '¡Correcto! Preparando la siguiente ronda...'],
+    [/^Alas, wrong pad! Final Score: (\d+)$/, (m) => `¡Ay, pad equivocado! Puntuación final: ${m[1]}`]
+  ];
+
+  const STATUS_IDS = ['clickerStatus', 'memoryStatus', 'starStatus', 'simonStatus'];
+  const status = {}; // id -> { english, written }
+  let lang = 'en';
+
+  function toSpanish(text) {
+    for (const [re, fn] of MESSAGES) {
+      const m = text.match(re);
+      if (m) return fn(m);
+    }
+    return text; // unknown message stays as written
+  }
+
+  function renderStatus(id) {
+    const el = document.getElementById(id);
+    const s = status[id];
+    if (!el || !s) return;
+    const out = lang === 'es' ? toSpanish(s.english) : s.english;
+    s.written = out;
+    if (el.textContent !== out) el.textContent = out;
+  }
+
+  function applyLanguage(next) {
+    lang = next === 'es' ? 'es' : 'en';
+    document.documentElement.lang = lang;
+    document.title = STRINGS.pageTitle[lang];
+
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const entry = STRINGS[el.dataset.i18n];
+      if (entry) el.textContent = entry[lang];
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach((el) => {
+      const entry = STRINGS[el.dataset.i18nAlt];
+      if (entry) el.alt = entry[lang];
+    });
+
+    STATUS_IDS.forEach(renderStatus);
+
+    const btn = document.getElementById('langToggle');
+    if (btn) {
+      btn.textContent = BUTTON_LABEL[lang].text;
+      btn.setAttribute('aria-label', BUTTON_LABEL[lang].label);
+      btn.setAttribute('lang', lang === 'es' ? 'en' : 'es');
+    }
+
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* storage blocked */ }
+  }
+
+  function watchStatus() {
+    const observer = new MutationObserver(() => {
+      STATUS_IDS.forEach((id) => {
+        const el = document.getElementById(id);
+        const s = status[id];
+        if (!el || !s) return;
+        if (el.textContent !== s.written) {  // game code wrote a new message
+          s.english = el.textContent;
+          renderStatus(id);
+        }
+      });
+    });
+    STATUS_IDS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      status[id] = { english: el.textContent, written: el.textContent };
+      observer.observe(el, { childList: true, characterData: true, subtree: true });
+    });
+  }
+
+  watchStatus();
+
+  document.getElementById('langToggle').addEventListener('click', () => {
+    applyLanguage(lang === 'en' ? 'es' : 'en');
+  });
+
+  let saved = 'en';
+  try { saved = localStorage.getItem(STORAGE_KEY) || 'en'; } catch (e) { /* storage blocked */ }
+  applyLanguage(saved);
+})();
