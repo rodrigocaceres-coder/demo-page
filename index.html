@@ -7,41 +7,47 @@
   
   <!-- This line connects your HTML to your new styles.css file -->
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="lang-toggle.css">
   
   <!-- Loads the Confetti Animation Library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-  <main class="card">
-    <img src="header-image.jpg" alt="A clean workspace with a laptop showing code" class="responsive-img">
+  <!-- English / Spanish toggle (logic in i18n.js) -->
+  <div class="lang-bar">
+    <button id="langToggle" class="lang-btn" type="button" lang="es" aria-label="Cambiar a español">Español</button>
+  </div>
 
-    <h1>Welcome to Web Development 101</h1>
+  <main class="card">
+    <img src="header-image.jpg" alt="A clean workspace with a laptop showing code" data-i18n-alt="heroAlt" class="responsive-img">
+
+    <h1 data-i18n="welcome">Welcome to Web Development 101</h1>
     
-    <p>This class introduces the fundamentals of web design and coding. We are learning how to build webpages using HTML and host them live using GitHub Pages!</p>
+    <p data-i18n="intro">This class introduces the fundamentals of web design and coding. We are learning how to build webpages using HTML and host them live using GitHub Pages!</p>
 
     <div style="text-align: center;">
-      <button id="excitedBtn" class="excited-btn">🎉 Huzzah! (I'm Excited)</button>
+      <button id="excitedBtn" class="excited-btn" data-i18n="huzzah">🎉 Huzzah! (I'm Excited)</button>
     </div>
 
     <!-- Mini-Arcade Section -->
     <div class="arcade-section">
-      <h2>🏰 The Grand Arcade</h2>
-      <p style="font-size: 16px; font-style: italic; margin-bottom: 15px;">Choose thy diversion:</p>
+      <h2 data-i18n="arcadeTitle">🏰 The Grand Arcade</h2>
+      <p style="font-size: 16px; font-style: italic; margin-bottom: 15px;" data-i18n="arcadeHint">Choose thy diversion:</p>
 
       <!-- Game Switcher Tabs -->
       <div class="game-tabs">
-        <button class="tab-btn active" onclick="switchGame(event, 'clicker')">⚡ Quick Strike</button>
-        <button class="tab-btn" onclick="switchGame(event, 'memory')">🧠 Scholar's Memory</button>
-        <button class="tab-btn" onclick="switchGame(event, 'star')">⭐ Catch the Star</button>
-        <button class="tab-btn" onclick="switchGame(event, 'simon')">🎵 Bard's Sequence</button>
+        <button class="tab-btn active" onclick="switchGame(event, 'clicker')" data-i18n="tabClicker">⚡ Quick Strike</button>
+        <button class="tab-btn" onclick="switchGame(event, 'memory')" data-i18n="tabMemory">🧠 Scholar's Memory</button>
+        <button class="tab-btn" onclick="switchGame(event, 'star')" data-i18n="tabStar">⭐ Catch the Star</button>
+        <button class="tab-btn" onclick="switchGame(event, 'simon')" data-i18n="tabSimon">🎵 Bard's Sequence</button>
       </div>
 
       <!-- GAME 1: Speed Clicker -->
       <div id="game-clicker" class="game-panel active">
-        <h3>Quick Strike (10 Seconds)</h3>
+        <h3 data-i18n="clickerTitle">Quick Strike (10 Seconds)</h3>
         <p id="clickerStatus">Click Start to test thy reaction speed!</p>
-        <button class="btn-primary" onclick="startClicker()">Commence</button>
+        <button class="btn-primary" onclick="startClicker()" data-i18n="commence">Commence</button>
         <div class="clicker-box" id="clickerBox">
           <button id="targetBtn" class="target" style="display:none;" onclick="hitTarget()">🎯</button>
         </div>
@@ -49,25 +55,25 @@
 
       <!-- GAME 2: Memory Match -->
       <div id="game-memory" class="game-panel">
-        <h3>Scholar's Memory Match</h3>
+        <h3 data-i18n="memoryTitle">Scholar's Memory Match</h3>
         <p id="memoryStatus">Find all 4 matching pairs!</p>
-        <button class="btn-primary" onclick="initMemoryGame()">New Game</button>
+        <button class="btn-primary" onclick="initMemoryGame()" data-i18n="newGame">New Game</button>
         <div class="memory-grid" id="memoryGrid"></div>
       </div>
 
       <!-- GAME 3: Catch the Star -->
       <div id="game-star" class="game-panel">
-        <h3>Catch the Falling Star</h3>
+        <h3 data-i18n="starTitle">Catch the Falling Star</h3>
         <p id="starStatus">Move thy mouse or Left/Right arrows to control the basket!</p>
-        <button class="btn-primary" onclick="startStarGame()">Commence</button>
+        <button class="btn-primary" onclick="startStarGame()" data-i18n="commence">Commence</button>
         <canvas id="starCanvas" width="300" height="200"></canvas>
       </div>
 
       <!-- GAME 4: Simon Says -->
       <div id="game-simon" class="game-panel">
-        <h3>Bard's Sequence</h3>
+        <h3 data-i18n="simonTitle">Bard's Sequence</h3>
         <p id="simonStatus">Press Commence to begin!</p>
-        <button class="btn-primary" onclick="startSimon()">Commence</button>
+        <button class="btn-primary" onclick="startSimon()" data-i18n="commence">Commence</button>
         <div class="simon-grid">
           <button id="pad-red" class="simon-pad" onclick="handleSimonInput(0)"></button>
           <button id="pad-green" class="simon-pad" onclick="handleSimonInput(1)"></button>
@@ -77,10 +83,12 @@
       </div>
     </div>
 
-    <p style="margin-top: 25px; text-align: center;">Peruse my favored manuscript: <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer">Visit Wikipedia</a></p>
+    <p style="margin-top: 25px; text-align: center;"><span data-i18n="peruse">Peruse my favored manuscript:</span> <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer" data-i18n="wiki">Visit Wikipedia</a></p>
   </main>
 
   <!-- Connects the game logic in script.js -->
   <script src="script.js"></script>
+  <!-- Language toggle. Must load after script.js. -->
+  <script src="i18n.js"></script>
 </body>
 </html>
