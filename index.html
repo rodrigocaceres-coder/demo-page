@@ -7,14 +7,13 @@
   
   <!-- This line connects your HTML to your new styles.css file -->
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="lang-toggle.css">
   
   <!-- Loads the Confetti Animation Library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-  <!-- English / Spanish toggle (logic in i18n.js) -->
+  <!-- English / Spanish toggle (logic at the bottom of script.js) -->
   <div class="lang-bar">
     <button id="langToggle" class="lang-btn" type="button" lang="es" aria-label="Cambiar a español">Español</button>
   </div>
@@ -86,9 +85,7 @@
     <p style="margin-top: 25px; text-align: center;"><span data-i18n="peruse">Peruse my favored manuscript:</span> <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer" data-i18n="wiki">Visit Wikipedia</a></p>
   </main>
 
-  <!-- Connects the game logic in script.js -->
+  <!-- Connects the game logic and language toggle in script.js -->
   <script src="script.js"></script>
-  <!-- Language toggle. Must load after script.js. -->
-  <script src="i18n.js"></script>
 </body>
 </html>
