@@ -25,6 +25,12 @@
     
     <p data-i18n="intro">This class introduces the fundamentals of web design and coding. We are learning how to build webpages using HTML and host them live using GitHub Pages!</p>
 
+    <div class="name-box">
+      <label for="nameInput" data-i18n="nameLabel">What is thy name?</label>
+      <input id="nameInput" type="text" maxlength="40" autocomplete="given-name" placeholder="Thy name" data-i18n-placeholder="namePlaceholder">
+      <p id="nameWelcome" aria-live="polite"></p>
+    </div>
+
     <div style="text-align: center;">
       <button id="excitedBtn" class="excited-btn" data-i18n="huzzah">🎉 Huzzah! (I'm Excited)</button>
     </div>

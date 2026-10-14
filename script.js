@@ -565,7 +565,9 @@ initMemoryGame();
     commence: { en: 'Commence', es: 'Comenzar' },
     newGame: { en: 'New Game', es: 'Nueva partida' },
     peruse: { en: 'Peruse my favored manuscript:', es: 'Hojea mi manuscrito favorito:' },
-    wiki: { en: 'Visit Wikipedia', es: 'Visitar Wikipedia' }
+    wiki: { en: 'Visit Wikipedia', es: 'Visitar Wikipedia' },
+    nameLabel: { en: 'What is thy name?', es: '¿Cómo te llamas?' },
+    namePlaceholder: { en: 'Thy name', es: 'Tu nombre' }
   };
 
   const BUTTON_LABEL = {
@@ -619,6 +621,10 @@ initMemoryGame();
       const entry = STRINGS[el.dataset.i18n];
       if (entry) el.textContent = entry[lang];
     });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      const entry = STRINGS[el.dataset.i18nPlaceholder];
+      if (entry) el.placeholder = entry[lang];
+    });
     document.querySelectorAll('[data-i18n-alt]').forEach((el) => {
       const entry = STRINGS[el.dataset.i18nAlt];
       if (entry) el.alt = entry[lang];
@@ -665,4 +671,26 @@ initMemoryGame();
   let saved = 'en';
   try { saved = localStorage.getItem(STORAGE_KEY) || 'en'; } catch (e) { /* storage blocked */ }
   applyLanguage(saved);
+})();
+
+/* ---------- Name welcome ----------
+   Shows a greeting under the name box; follows the page language set by the toggle above. */
+(function () {
+  const input = document.getElementById('nameInput');
+  const out = document.getElementById('nameWelcome');
+  if (!input || !out) return;
+
+  const GREETING = {
+    en: (n) => `Welcome, ${n}! Enjoy the arcade.`,
+    es: (n) => `¡Te damos la bienvenida, ${n}! Disfruta la galería.`
+  };
+
+  function render() {
+    const name = input.value.trim();
+    const lang = document.documentElement.lang === 'es' ? 'es' : 'en';
+    out.textContent = name ? GREETING[lang](name) : '';
+  }
+
+  input.addEventListener('input', render);
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 })();

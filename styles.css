@@ -366,3 +366,32 @@ a:hover, a:focus {
 .lang-btn:active {
   transform: scale(0.96);
 }
+
+/* Name welcome */
+.name-box {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.name-box label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.name-box input {
+  font-family: 'Garamond', 'Georgia', serif;
+  font-size: 18px;
+  padding: 6px 10px;
+  border: 2px solid #8b5a2b;
+  border-radius: 2px;
+  background-color: #fcf5e5;
+  color: #800020;
+  max-width: 100%;
+}
+
+.name-box p {
+  margin: 12px 0 0;
+  font-style: italic;
+  min-height: 1.4em;
+}
